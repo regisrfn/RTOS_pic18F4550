@@ -10,6 +10,7 @@
 #include <p18f4550.h>
 #include "CONFIG.h" // Configuration Bit Settings
 #include "TASK.h"   // Configuration of RTOS variables
+#include "delayRTOS.h"
 #define Pulse LATB
 
 void TASK0();
@@ -24,7 +25,10 @@ void main(void) {
     PORTB = 0;
     
     startRTOS();
-    while (1);
+    while (1){
+        PORTBbits.RB1 = (unsigned)!PORTBbits.RB1;
+        Timer0_delay_us();        
+    }
 
     return;
 }

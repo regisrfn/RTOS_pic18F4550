@@ -6,6 +6,7 @@
                    projectFiles="true">
       <logicalFolder name="f1" displayName="RTOS" projectFiles="true">
         <itemPath>TASK.h</itemPath>
+        <itemPath>delayRTOS.h</itemPath>
       </logicalFolder>
       <itemPath>CONFIG.h</itemPath>
     </logicalFolder>
@@ -18,6 +19,7 @@
                    projectFiles="true">
       <logicalFolder name="f1" displayName="RTOS" projectFiles="true">
         <itemPath>task.c</itemPath>
+        <itemPath>delay.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
     </logicalFolder>
