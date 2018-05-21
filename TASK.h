@@ -1,20 +1,20 @@
 // This is a guard condition so that contents of this file are not included
 // more than once.  
-#ifndef XC_HEADER_TEMPLATE_H
-#define	XC_HEADER_TEMPLATE_H
+#ifndef TASK_H
+#define	TASK_H
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 
 #define NumberOfTasks 4
 #define FreqPIC 48
-#define Prescale 2
-#define TasksTime 100//us
-#define Timer (65536 - (TasksTime*FreqPIC/(4*Prescale)))
+#define Prescale 1
+#define TasksTime 100 //us
+#define Timer (65535 - (TasksTime*FreqPIC/(4*Prescale)))
 #define EnterCritical GIE = 0;
 #define ExitCritical  GIE = 1;
 #define SwapTask {swapTask = 1;INTCONbits.TMR0IF = 1;}
 
-volatile unsigned short Timer0 = Timer + 1;
+volatile unsigned short Timer1 = Timer + 1 ;
 volatile unsigned char Temp, taskWreg, taskStatus, taskBsr, swapTask = 0;
 volatile unsigned char savedContext[NumberOfTasks][3];
 volatile unsigned char taskNumber = 0;
@@ -41,5 +41,5 @@ extern "C" {
 }
 #endif /* __cplusplus */
 
-#endif	/* XC_HEADER_TEMPLATE_H */
+#endif	/* TASK_H */
 
