@@ -8,7 +8,7 @@
 #define NumberOfTasks 4
 #define FreqPIC 48
 #define Prescale 1
-#define TasksTime 100 //us
+#define TasksTime 10 //us
 #define Timer (65535 - (TasksTime*FreqPIC/(4*Prescale)))
 #define EnterCritical GIE = 0;
 #define ExitCritical  GIE = 1;

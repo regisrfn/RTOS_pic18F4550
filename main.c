@@ -16,21 +16,20 @@
 void TASK0();
 void TASK1();
 void TASK2();
-void TASK3();
-void Timer1_delay();
+
 
 void main(void) {
-
-    TRISB = 0;
-    PORTB = 0;
     
+    
+    TRISB = 0;
+    PORTB = 0;    
+    
+    TASK0();
+    TASK1();
+    TASK2();
     startRTOS();
-    while (1){
-        PORTBbits.RB1 = (unsigned)!PORTBbits.RB1;
-        Timer0_delay_us();        
-    }
-
-    return;
+    while(1);
+    
 }
 
 //void Timer1_delay() {
@@ -42,3 +41,36 @@ void main(void) {
 //    TMR1ON = 0; /* Turn OFF timer */
 //    TMR1IF = 0; /* Make Timer1 overflow flag to '0' */
 //}
+
+void TASK0() {
+    initTask(1,1);
+    while (1){
+        // Timer0_delay_us();
+    }
+}
+
+void TASK1() {
+    initTask(2,1);
+    int test;
+    while (1){
+        // Timer0_delay_us();
+        test = 1;
+        test = 2;
+        test = 3;
+        test = 4;
+        test = 5;
+    }
+}
+
+void TASK2() {
+    initTask(3,1);
+    int test;
+    while (1){
+        // Timer0_delay_us();
+        test = 1;
+        test = 2;
+        test = 3;
+        test = 4;
+        test = 5;
+    }
+}
