@@ -11,9 +11,9 @@
 
 void interrupt highPriority() {
 
-    if (PIR1bits.TMR1IF == 1) {
+    if (TMR0IF == 1) {
 
-        TMR1 = Timer1;
+        TMR0 = Timer0;
 
         taskStack[taskNumber][0] = TOSL;
         taskStack[taskNumber][1] = TOSH;
@@ -32,7 +32,7 @@ void interrupt highPriority() {
         TOSH = taskStack[taskNumber][1];
         TOSU = taskStack[taskNumber][2];
 
-        PIR1bits.TMR1IF = 0;
+        TMR0IF = 0;
         asm("retfie");
 
     }
@@ -43,17 +43,17 @@ void setTimerTasks() {
 
     GIE = 1; /* Enable Global Interrupt */
     PEIE = 1; /* Enable Peripheral Interrupt */
-    TMR1IE = 1; /* Enable Timer1 Overflow Interrupt */
-    TMR1IF = 0;
+    TMR0IF = 0;
     /* Enable 16-bit TMR1 register,no pre-scale,internal clock, timer OFF */
-    T1CON = 0x80;
-    TMR1 = Timer1; /* Load Count for generating delay of 1ms */
-    TMR1ON = 1; /* Turn ON Timer1 */
+    T0CON = 0x00;
+    TMR0 = Timer0; /* Load Count for generating delay of 1ms */
+    TMR0ON = 1; /* Turn ON Timer1 */
+    TMR0IE = 1; /* Enable Timer1 Overflow Interrupt */
 }
 
 void startRTOS(void) {
     setTimerTasks();
-    TMR1IF = 1;
+    TMR0IF = 1;
 }
 
 void initTask(unsigned char TaskNo, unsigned int t) {

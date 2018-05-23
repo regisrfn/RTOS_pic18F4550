@@ -13,23 +13,22 @@
 #include "delayRTOS.h"
 #define Pulse LATB
 
-void TASK0();
+
 void TASK1();
 void TASK2();
 
-
 void main(void) {
-    
-    
+
+
     TRISB = 0;
-    PORTB = 0;    
+    PORTB = 0;
+
     
-    TASK0();
     TASK1();
     TASK2();
     startRTOS();
-    while(1);
-    
+    while (1);
+
 }
 
 //void Timer1_delay() {
@@ -42,30 +41,18 @@ void main(void) {
 //    TMR1IF = 0; /* Make Timer1 overflow flag to '0' */
 //}
 
-void TASK0() {
-    initTask(1,1);
-    while (1){
-        // Timer0_delay_us();
-    }
-}
-
 void TASK1() {
-    initTask(2,1);
-    int test;
-    while (1){
-        // Timer0_delay_us();
-        test = 1;
-        test = 2;
-        test = 3;
-        test = 4;
-        test = 5;
+    initTask(1, 1);
+    while (1) {
+        Timer1_delay_us();
+        PORTBbits.RB0 = (unsigned) !PORTBbits.RB0;
     }
 }
 
 void TASK2() {
-    initTask(3,1);
+    initTask(2, 1);
     int test;
-    while (1){
+    while (1) {
         // Timer0_delay_us();
         test = 1;
         test = 2;
@@ -74,3 +61,4 @@ void TASK2() {
         test = 5;
     }
 }
+

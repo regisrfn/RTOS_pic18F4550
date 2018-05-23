@@ -5,16 +5,16 @@
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 
-#define NumberOfTasks 4
+#define NumberOfTasks 3 // tasks number + 1
 #define FreqPIC 48
-#define Prescale 1
+#define Prescale 2
 #define TasksTime 10 //us
 #define Timer (65535 - (TasksTime*FreqPIC/(4*Prescale)))
 #define EnterCritical GIE = 0;
 #define ExitCritical  GIE = 1;
 #define SwapTask {swapTask = 1;INTCONbits.TMR0IF = 1;}
 
-volatile unsigned short Timer1 = Timer + 1 ;
+volatile unsigned short Timer0 = Timer + 1 ;
 volatile unsigned char Temp, taskWreg, taskStatus, taskBsr, swapTask = 0;
 volatile unsigned char savedContext[NumberOfTasks][3];
 volatile unsigned char taskNumber = 0;

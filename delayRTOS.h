@@ -32,14 +32,15 @@
 #define	DELAY_RTOS_H
 
 #include <xc.h> // include processor files - each processor file is guarded.  
-#define delay_FreqPIC 48
-#define delay_Prescale 2
-#define delay_TasksTime 10 //us
+#include "TASK.h"
+#define delay_FreqPIC FreqPIC
+#define delay_Prescale 1
+#define delay_TasksTime 1 //us
 #define delay_Timer (65535 - (delay_TasksTime*delay_FreqPIC/(4*delay_Prescale)))
 
-volatile unsigned short Timer0 = delay_Timer + 1 ;
+volatile unsigned short Timer1 = delay_Timer + 1 ;
 
-void Timer0_delay_us();
+void Timer1_delay_us();
 
 #ifdef	__cplusplus
 extern "C" {
