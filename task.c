@@ -10,7 +10,7 @@
 #include "TASK.h"
 
 void interrupt highPriority() {
-    saveRegisters;    
+    saveRegisters;   
     if (TMR0IF == 1) {
         saveContext;
         taskStack[taskNumber][0] = TOSL;
@@ -30,6 +30,9 @@ void interrupt highPriority() {
         TMR0 = Timer0;
         TMR0IF = 0;
         
+        taskWreg = savedContext[taskNumber][0];
+        taskStatus = savedContext[taskNumber][1];
+        taskBsr = savedContext[taskNumber][2];
         restoreContext;
         asm("retfie");
     }

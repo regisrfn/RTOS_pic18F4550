@@ -42,17 +42,15 @@ void TASK1() {
     initTask(1, 1);
     int test = 100;
     while (1) {
-        test++;
-        PORTBbits.RB0 = (unsigned) !PORTBbits.RB0;
+        
     }
 }
 
 void TASK2() {
     initTask(2, 1);
-    int i = 0;
+    int i = 7;
     while (1) {
-        delay_us(10);
-        PORTBbits.RB1 = (unsigned) !PORTBbits.RB1;
+        
     }
 }
 
