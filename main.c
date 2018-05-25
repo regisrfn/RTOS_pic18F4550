@@ -19,15 +19,12 @@ void TASK2();
 
 void main(void) {
 
-
     TRISB = 0;
     PORTB = 0;
 
-    
     TASK1();
     TASK2();
     startRTOS();
-    while (1);
 
 }
 
@@ -43,22 +40,19 @@ void main(void) {
 
 void TASK1() {
     initTask(1, 1);
+    int test = 100;
     while (1) {
-        Timer1_delay_us();
+        test++;
         PORTBbits.RB0 = (unsigned) !PORTBbits.RB0;
     }
 }
 
 void TASK2() {
     initTask(2, 1);
-    int test;
+    int i = 0;
     while (1) {
-        // Timer0_delay_us();
-        test = 1;
-        test = 2;
-        test = 3;
-        test = 4;
-        test = 5;
+        delay_us(10);
+        PORTBbits.RB1 = (unsigned) !PORTBbits.RB1;
     }
 }
 

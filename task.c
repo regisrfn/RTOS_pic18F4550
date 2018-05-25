@@ -10,31 +10,28 @@
 #include "TASK.h"
 
 void interrupt highPriority() {
-
+    saveRegisters;    
     if (TMR0IF == 1) {
-
-        TMR0 = Timer0;
-
+        saveContext;
         taskStack[taskNumber][0] = TOSL;
         taskStack[taskNumber][1] = TOSH;
         taskStack[taskNumber][2] = TOSU;
         asm("POP");
 
-        
         taskNumber++;
         if (taskNumber > NumberOfTasks - 1)
             taskNumber = 1;
-        
-        
-        
+
         asm("PUSH");
         TOSL = taskStack[taskNumber][0];
         TOSH = taskStack[taskNumber][1];
         TOSU = taskStack[taskNumber][2];
 
+        TMR0 = Timer0;
         TMR0IF = 0;
+        
+        restoreContext;
         asm("retfie");
-
     }
 
 }

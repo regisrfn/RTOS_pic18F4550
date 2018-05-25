@@ -11,3 +11,15 @@ void Timer1_delay_us() {
 
 }
 
+void delay_us(unsigned int time){
+    static unsigned int i;
+    static unsigned int t;
+    t = time;
+    
+    for(i = 0; i < t;i++){
+        Timer1_delay_us();
+    }
+}
+
+
+
