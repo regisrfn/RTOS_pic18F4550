@@ -6,7 +6,7 @@
 #include <xc.h> // include processor files - each processor file is guarded.  
 #define delay_FreqPIC 48
 #define delay_Prescale 1
-#define delay_TasksTime 1000 //us
+#define delay_TasksTime 1000//us
 #define delay_Timer (65535 - (delay_TasksTime*delay_FreqPIC/(unsigned short)(4*delay_Prescale)))
 
 volatile unsigned short Timer1 = delay_Timer+1;

@@ -11,7 +11,9 @@
 #include "CONFIG.h" // Configuration Bit Settings
 #include "TASK.h"   // Configuration of RTOS variables
 #include "delayRTOS.h"
-#define Pulse LATB
+#define Pulse1 LATBbits.LATB0
+#define Pulse2 LATBbits.LATB1
+#define _XTAL_FREQ 48000000
 
 
 void TASK1();
@@ -21,7 +23,7 @@ void main(void) {
 
     TRISB = 0;
     PORTB = 0;
-
+    
     TASK1();
     TASK2();
     startRTOS();
@@ -40,17 +42,21 @@ void main(void) {
 
 void TASK1() {
     initTask(1, 1);
-    int test = 100;
+    static int test  = 100;
     while (1) {
-        
+        __delay_us(10);
+        Pulse1 = (unsigned)!Pulse1;
+        test++;      
     }
 }
 
 void TASK2() {
     initTask(2, 1);
-    int i = 7;
+    static int i = 7;
     while (1) {
-        
+        delay_us(2);
+        Pulse2 = (unsigned)!Pulse2;
+        i++;
     }
 }
 

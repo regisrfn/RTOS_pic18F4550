@@ -8,7 +8,7 @@
 #define NumberOfTasks 3 // tasks number + 1
 #define FreqPIC 48
 #define Prescale 2
-#define TasksTime 10 //us
+#define TasksTime 100 //us
 #define Timer (65535 - (TasksTime*FreqPIC/(unsigned short)(4*Prescale)))
 #define EnterCritical GIE = 0;
 #define ExitCritical  GIE = 1;
@@ -20,38 +20,6 @@ asm("SWAPF STATUS,W");\
 asm("MOVWF _taskStatus");\
 asm("SWAPF	BSR, W");\
 asm("MOVWF _taskBSR");\
-asm("SWAPF	FSR2L, W");\
-asm("MOVWF _taskFSR2L");\
-asm("SWAPF	FSR2H, W");\
-asm("MOVWF _taskFSR2H");\
-asm("SWAPF	FSR0L, W");\
-asm("MOVWF _taskFSR0L");\
-asm("SWAPF	FSR0H, W");\
-asm("MOVWF _taskFSR0H");\
-asm("SWAPF	TABLAT, W");\
-asm("MOVWF _taskTABLAT");\
-asm("SWAPF	TBLPTRU, W");\
-asm("MOVWF _taskTBLPTRU");\
-asm("SWAPF	TBLPTRH, W");\
-asm("MOVWF _taskTBLPTRH");\
-asm("SWAPF	TBLPTRL, W");\
-asm("MOVWF _taskTBLPTRL");\
-asm("SWAPF	PRODH, W");\
-asm("MOVWF _taskPRODH");\
-asm("SWAPF	PRODL, W");\
-asm("MOVWF _taskPRODL");\
-asm("SWAPF	PCLATU, W");\
-asm("MOVWF _taskPCLATU");\
-asm("SWAPF	PCLATH, W");\
-asm("MOVWF _taskPCLATH");\
-asm("CLRF	FSR0L");\
-asm("CLRF	FSR0H");\
-asm("SWAPF	INDF0, W");\
-asm("MOVWF _taskINDF0");\
-asm("SWAPF	FSR0L, W");\
-asm("MOVWF _taskFSR0L");\
-asm("SWAPF	FSR0H, W");\
-asm("MOVWF _taskFSR0H");\
 }
 
 #define saveContext {\
@@ -72,12 +40,7 @@ unsigned char taskStack[NumberOfTasks][3];
 unsigned int taskCountTime[NumberOfTasks];
 unsigned int taskTime[NumberOfTasks];
 unsigned char taskBlocked[NumberOfTasks];
-
-unsigned char taskWREG, taskSTATUS, taskBSR, taskFSR2L, taskFSR2H, taskFSR0L;
-unsigned char taskFSR0H, taskTABLAT, taskTBLPTRU, taskTBLPTRH, taskTBLPTRL;
-unsigned char taskPRODH, taskPRODL, taskPCLATU, taskPCLATH, taskFSR0L;
-unsigned char taskFSR0H, taskINDF0, taskFSR0L, taskFSR0H; 
-
+unsigned char taskWREG, taskSTATUS, taskBSR;
 void interrupt highPriority();
 void setTimerTasks();
 void initBlocked();
