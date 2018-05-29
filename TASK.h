@@ -10,6 +10,7 @@
 #define Prescale 2
 #define TasksTime 100 //us
 #define Timer (65535 - (TasksTime*FreqPIC/(unsigned short)(4*Prescale)))
+#define MAX_SIZE_STACK 10
 #define EnterCritical GIE = 0;
 #define ExitCritical  GIE = 1;
 #define SwapTask {swapTask = 1;INTCONbits.TMR0IF = 1;}
@@ -36,10 +37,11 @@ unsigned short Timer0 = Timer + 1;
 unsigned char Temp, taskWreg, taskStatus, taskBsr, swapTask = 0;
 unsigned char savedContext[NumberOfTasks][3];
 unsigned char taskNumber = 0;
-unsigned char taskStack[NumberOfTasks][3];
+unsigned char taskStack[NumberOfTasks][3][MAX_SIZE_STACK];
 unsigned int taskCountTime[NumberOfTasks];
 unsigned int taskTime[NumberOfTasks];
 unsigned char taskBlocked[NumberOfTasks];
+unsigned char size_stack[NumberOfTasks];
 unsigned char taskWREG, taskSTATUS, taskBSR;
 void interrupt highPriority();
 void setTimerTasks();

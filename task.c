@@ -10,26 +10,36 @@
 #include "TASK.h"
 
 void interrupt highPriority() {
-    saveRegisters;   
+    saveRegisters;
     if (TMR0IF == 1) {
         saveContext;
-        taskStack[taskNumber][0] = TOSL;
-        taskStack[taskNumber][1] = TOSH;
-        taskStack[taskNumber][2] = TOSU;
-        asm("POP");
+
+        size_stack[taskNumber] = 0;
+        while (STKPTR > 1) {
+            taskStack[taskNumber][0][size_stack[taskNumber]] = TOSL;
+            taskStack[taskNumber][1][size_stack[taskNumber]] = TOSH;
+            taskStack[taskNumber][2][size_stack[taskNumber]] = TOSU;
+            asm("POP");
+            size_stack[taskNumber]++;
+        }
+        size_stack[taskNumber]--;
 
         taskNumber++;
         if (taskNumber > NumberOfTasks - 1)
             taskNumber = 1;
 
-        asm("PUSH");
-        TOSL = taskStack[taskNumber][0];
-        TOSH = taskStack[taskNumber][1];
-        TOSU = taskStack[taskNumber][2];
+
+        while ((signed char) size_stack[taskNumber] > -1) {
+            asm("PUSH");
+            TOSL = taskStack[taskNumber][0][size_stack[taskNumber]];
+            TOSH = taskStack[taskNumber][1][size_stack[taskNumber]];
+            TOSU = taskStack[taskNumber][2][size_stack[taskNumber]];
+            size_stack[taskNumber]--;
+        }
 
         TMR0 = Timer0;
         TMR0IF = 0;
-        
+
         taskWreg = savedContext[taskNumber][0];
         taskStatus = savedContext[taskNumber][1];
         taskBsr = savedContext[taskNumber][2];
@@ -58,9 +68,9 @@ void startRTOS(void) {
 
 void initTask(unsigned char TaskNo, unsigned int t) {
 
-    taskStack[TaskNo][0] = TOSL;
-    taskStack[TaskNo][1] = TOSH;
-    taskStack[TaskNo][2] = TOSU;
+    taskStack[TaskNo][0][0] = TOSL;
+    taskStack[TaskNo][1][0] = TOSH;
+    taskStack[TaskNo][2][0] = TOSU;
     taskTime[TaskNo] = t;
     asm("POP");
 }

@@ -11,6 +11,7 @@
 #include "CONFIG.h" // Configuration Bit Settings
 #include "TASK.h"   // Configuration of RTOS variables
 #include "delayRTOS.h"
+#include "LCD.h"
 #define Pulse1 LATBbits.LATB0
 #define Pulse2 LATBbits.LATB1
 #define _XTAL_FREQ 48000000
@@ -23,7 +24,11 @@ void main(void) {
 
     TRISB = 0;
     PORTB = 0;
-    
+
+    //inicializacao do LCD
+    ADCON1 = 0x0F; //Desabilita todos os canais A/D
+    lcd_ini(); //Inicializa LCD 
+
     TASK1();
     TASK2();
     startRTOS();
@@ -42,21 +47,24 @@ void main(void) {
 
 void TASK1() {
     initTask(1, 1);
-    static int test  = 100;
+    int test = 100;
     while (1) {
-        __delay_us(10);
-        Pulse1 = (unsigned)!Pulse1;
-        test++;      
+        test++;
+        __delay_ms(200);
+        putsLCD("\fPIC18F4550.\r\n");
+        putsLCD("TASK 2.");
+        Pulse1 = (unsigned) !Pulse1;
+
     }
 }
 
 void TASK2() {
     initTask(2, 1);
-    static int i = 7;
+    int i = 7;
     while (1) {
-        delay_us(2);
-        Pulse2 = (unsigned)!Pulse2;
         i++;
+        delay_ms(200);
+        Pulse2 = (unsigned) !Pulse2;
     }
 }
 

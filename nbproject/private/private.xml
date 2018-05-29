@@ -5,9 +5,11 @@
         <group>
             <file>file:/home/regis/MPLABXProjects/RTOS.X/main.c</file>
             <file>file:/home/regis/MPLABXProjects/RTOS.X/TASK.h</file>
+            <file>file:/home/regis/MPLABXProjects/RTOS.X/LCD.h</file>
             <file>file:/home/regis/MPLABXProjects/RTOS.X/delayRTOS.h</file>
             <file>file:/home/regis/MPLABXProjects/RTOS.X/delay.c</file>
             <file>file:/home/regis/MPLABXProjects/RTOS.X/task.c</file>
+            <file>file:/home/regis/MPLABXProjects/RTOS.X/LCD.c</file>
         </group>
     </open-files>
 </project-private>

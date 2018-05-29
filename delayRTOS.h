@@ -3,7 +3,8 @@
 #ifndef DELAY_RTOS_H
 #define	DELAY_RTOS_H
 
-#include <xc.h> // include processor files - each processor file is guarded.  
+#include <xc.h> // include processor files - each processor file is guarded. 
+#define _XTAL_FREQ 48000000
 #define delay_FreqPIC 48
 #define delay_Prescale 1
 #define delay_TasksTime 1000//us
@@ -12,7 +13,7 @@
 volatile unsigned short Timer1 = delay_Timer+1;
 
 void Timer1_delay_us();
-void delay_us(unsigned int time);
+void delay_ms(int time);
 
 #ifdef	__cplusplus
 extern "C" {
