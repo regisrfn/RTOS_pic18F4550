@@ -14,8 +14,7 @@ void Timer1_delay_us() {
 void delay_ms(int time){
     static int i;
     static int t;
-    t = time;
-    
+    t = time;    
     for(i = 0; i < t;i++){
         Timer1_delay_us();
     }

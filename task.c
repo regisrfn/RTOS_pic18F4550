@@ -37,12 +37,12 @@ void interrupt highPriority() {
             size_stack[taskNumber]--;
         }
 
-        TMR0 = Timer0;
-        TMR0IF = 0;
-
         taskWreg = savedContext[taskNumber][0];
         taskStatus = savedContext[taskNumber][1];
         taskBsr = savedContext[taskNumber][2];
+                
+        TMR0IF = 0;
+        TMR0 = Timer0;
         restoreContext;
         asm("retfie");
     }

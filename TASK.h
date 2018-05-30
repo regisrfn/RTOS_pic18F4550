@@ -5,10 +5,10 @@
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 
-#define NumberOfTasks 3 // tasks number + 1
+#define NumberOfTasks 4 // tasks number + 1
 #define FreqPIC 48
 #define Prescale 2
-#define TasksTime 100 //us
+#define TasksTime 50 //us
 #define Timer (65535 - (TasksTime*FreqPIC/(unsigned short)(4*Prescale)))
 #define MAX_SIZE_STACK 10
 #define EnterCritical GIE = 0;

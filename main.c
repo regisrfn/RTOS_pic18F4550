@@ -12,13 +12,15 @@
 #include "TASK.h"   // Configuration of RTOS variables
 #include "delayRTOS.h"
 #include "LCD.h"
-#define Pulse1 LATBbits.LATB0
-#define Pulse2 LATBbits.LATB1
+#define Pulse1 PORTBbits.RB0
+#define Pulse2 PORTBbits.RB1
+#define Pulse3 PORTBbits.RB2
 #define _XTAL_FREQ 48000000
 
 
 void TASK1();
 void TASK2();
+void TASK3();
 
 void main(void) {
 
@@ -31,6 +33,7 @@ void main(void) {
 
     TASK1();
     TASK2();
+    TASK3();
     startRTOS();
 
 }
@@ -47,24 +50,28 @@ void main(void) {
 
 void TASK1() {
     initTask(1, 1);
-    int test = 100;
     while (1) {
-        test++;
-        __delay_ms(200);
-        putsLCD("\fPIC18F4550.\r\n");
-        putsLCD("TASK 2.");
-        Pulse1 = (unsigned) !Pulse1;
-
+        delay_ms(200);
+        Pulse1 = (unsigned) ~Pulse1;
     }
 }
 
 void TASK2() {
     initTask(2, 1);
-    int i = 7;
     while (1) {
-        i++;
-        delay_ms(200);
-        Pulse2 = (unsigned) !Pulse2;
+        __delay_ms(200);
+        putsLCD("\fPIC18F4550.\r\n");
+        putsLCD("TASK 2.");
+        __delay_ms(200);
+        putsLCD("\fTASK 2.\r\n");
+        putsLCD("PIC18F4550");
+    }
+}
+
+void TASK3() {
+    initTask(3, 1);
+    while (1) {
+
     }
 }
 
