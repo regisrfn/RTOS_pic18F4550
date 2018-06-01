@@ -50,9 +50,6 @@ void interrupt highPriority() {
 }
 
 void setTimerTasks() {
-
-    GIE = 1; /* Enable Global Interrupt */
-    PEIE = 1; /* Enable Peripheral Interrupt */
     TMR0IF = 0;
     /* Enable 16-bit TMR1 register,no pre-scale,internal clock, timer OFF */
     T0CON = 0x00;
@@ -63,6 +60,9 @@ void setTimerTasks() {
 
 void startRTOS(void) {
     setTimerTasks();
+    IPEN = 1;
+    GIEH = 1;
+    GIEL = 1;
     TMR0IF = 1;
 }
 

@@ -8,6 +8,7 @@
         <itemPath>TASK.h</itemPath>
         <itemPath>delayRTOS.h</itemPath>
         <itemPath>types.h</itemPath>
+        <itemPath>EUSART.h</itemPath>
       </logicalFolder>
       <itemPath>CONFIG.h</itemPath>
     </logicalFolder>
@@ -22,6 +23,7 @@
         <itemPath>task.c</itemPath>
         <itemPath>delay.c</itemPath>
         <itemPath>LCD.c</itemPath>
+        <itemPath>EUSART.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
       <itemPath>LCD.h</itemPath>

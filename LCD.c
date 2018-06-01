@@ -10,16 +10,16 @@ void lcd_ini() {
     PORTD = 0b00000000; //Toda porta D em nível lógico 0
     PORTEbits.RE0 = 0; //Pino 0 da porta E em nível 0
     PORTEbits.RE1 = 0; //Pino 1 da porta E em nível 0
-    __delay_ms(15); //Atraso de 15ms
+    delay_ms(15); //Atraso de 15ms
     //Envia o comando 0x30 ao LCD por 3 vezes, em intervalos de 5ms
     for (i = 0; i <= 2; i++) {
         lcd_cmd(0x30);
-        __delay_ms(5);
+        delay_ms(5);
     }
     lcd_cmd(0x38); //Comunicação em 8 bits, display de 2 linhas e matriz 7X5
     __delay_us(40); //Atraso de 40us
     lcd_cmd(0x01); //Limpa a memória do LCD
-    __delay_ms(2); //Atraso de 2ms
+    delay_ms(2); //Atraso de 2ms
     lcd_cmd(0x0C); //Liga o display sem cursor
     __delay_us(40); //Atraso de 40us
     lcd_cmd(0x06); //Deslocamento do cursor à direita após um novo caractere
@@ -73,7 +73,7 @@ void lcd_escreve(char charLCD) //Função para envio dos caracteres e/ou dados par
     {
         case '\f': lcd_envia_byte(0, 1); //Caso c seja ?\f?, o dado 1 será enviado ao LCD para 
             //limpar todo o seu conteúdo.
-            __delay_ms(2); //Atraso de 2 ms
+            delay_ms(2); //Atraso de 2 ms
             break; //Comando break, terminou o processo acima, já não testa 
             //nenhum outro caso... 
         case '\n': //Caso c seja ?\n?

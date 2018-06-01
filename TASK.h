@@ -4,11 +4,11 @@
 #define	TASK_H
 
 #include <xc.h> // include processor files - each processor file is guarded.  
-
+#define _XTAL_FREQ 48000000
 #define NumberOfTasks 4 // tasks number + 1
 #define FreqPIC 48
 #define Prescale 2
-#define TasksTime 50 //us
+#define TasksTime 100 //us
 #define Timer (65535 - (TasksTime*FreqPIC/(unsigned short)(4*Prescale)))
 #define MAX_SIZE_STACK 10
 #define EnterCritical GIE = 0;
@@ -26,7 +26,9 @@ asm("MOVWF _taskBSR");\
 #define saveContext {\
     savedContext[taskNumber][0] = taskWreg;\
     savedContext[taskNumber][1] = taskStatus;\
-    savedContext[taskNumber][2] = taskBsr;}
+    savedContext[taskNumber][2] = taskBsr;\
+}
+
 #define restoreContext {\
     asm ("MOVWF _taskStatus,W");\
     asm ("MOVWF STATUS");\
@@ -40,9 +42,11 @@ unsigned char taskNumber = 0;
 unsigned char taskStack[NumberOfTasks][3][MAX_SIZE_STACK];
 unsigned int taskCountTime[NumberOfTasks];
 unsigned int taskTime[NumberOfTasks];
+int taskDelay[NumberOfTasks];
 unsigned char taskBlocked[NumberOfTasks];
 unsigned char size_stack[NumberOfTasks];
 unsigned char taskWREG, taskSTATUS, taskBSR;
+
 void interrupt highPriority();
 void setTimerTasks();
 void initBlocked();
