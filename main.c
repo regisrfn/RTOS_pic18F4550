@@ -17,14 +17,14 @@ void TASK3();
 
 void main(void) {
 
-    TRISB = 0;
+    TRISBbits.RB0 = 0;
     PORTB = 0;
 
     //inicializacao do LCD
     ADCON1 = 0x0F; //Desabilita todos os canais A/D
     lcd_ini(); //Inicializa LCD 
     UART_Init(9000);
-    
+
     TASK1();
     TASK2();
     TASK3();
@@ -34,14 +34,16 @@ void main(void) {
 
 void TASK1() {
     initTask(1, 1);
+    int test = 100;
     while (1) {
-        //delay_ms(200);
-        //Pulse1 = (unsigned) ~Pulse1;
+        test++;
+        Pulse1 = (unsigned) ~Pulse1;
     }
 }
 
 void TASK2() {
     initTask(2, 1);
+    int test = 7;
     while (1) {
         delay_ms(200);
         putsLCD("\fPIC18F4550.\r\n");
@@ -49,13 +51,16 @@ void TASK2() {
         delay_ms(200);
         putsLCD("\fTASK 2.\r\n");
         putsLCD("PIC18F4550\r\n");
-        Pulse1 = (unsigned) ~Pulse1;
+        Pulse2 = (unsigned) ~Pulse2;
+        test++;
     }
 }
 
 void TASK3() {
     initTask(3, 1);
+    int test = 255;
     while (1) {
+        test++;
         writeStringSerial("TASK 3 IS RUNNNING\r\n");
     }
 }

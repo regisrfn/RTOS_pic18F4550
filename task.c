@@ -10,9 +10,9 @@
 #include "TASK.h"
 
 void interrupt highPriority() {
-    saveRegisters;
+    SAVE_REGISTERS;
     if (TMR0IF == 1) {
-        saveContext;
+        SAVE_CONTEXT;
 
         size_stack[taskNumber] = 0;
         while (STKPTR > 1) {
@@ -25,7 +25,7 @@ void interrupt highPriority() {
         size_stack[taskNumber]--;
 
         taskNumber++;
-        if (taskNumber > NumberOfTasks - 1)
+        if (taskNumber > NUMBER_OF_TASKS - 1)
             taskNumber = 1;
 
 
@@ -37,13 +37,13 @@ void interrupt highPriority() {
             size_stack[taskNumber]--;
         }
 
-        taskWreg = savedContext[taskNumber][0];
-        taskStatus = savedContext[taskNumber][1];
-        taskBsr = savedContext[taskNumber][2];
+        taskWREG = savedContext[taskNumber][0];
+        taskSTATUS = savedContext[taskNumber][1];
+        taskBSR = savedContext[taskNumber][2];
                 
         TMR0IF = 0;
         TMR0 = Timer0;
-        restoreContext;
+        RESTORE_CONTEXT;
         asm("retfie");
     }
 

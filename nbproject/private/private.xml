@@ -8,6 +8,8 @@
             <file>file:/home/regis/MPLABXProjects/RTOS.X/EUSART.h</file>
             <file>file:/home/regis/MPLABXProjects/RTOS.X/EUSART.c</file>
             <file>file:/home/regis/MPLABXProjects/RTOS.X/LCD.h</file>
+            <file>file:/home/regis/MPLABXProjects/RTOS.X/delay.c</file>
+            <file>file:/home/regis/MPLABXProjects/RTOS.X/task.c</file>
             <file>file:/home/regis/MPLABXProjects/RTOS.X/LCD.c</file>
         </group>
     </open-files>

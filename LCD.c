@@ -94,9 +94,15 @@ void putsLCD(const char *str) {
     static char i = 0;
 
     string = str;
+    
     for (i = 0; string[i] != '\0'; i++) {
         lcd_escreve(string[i]);
     }
+
+    //    while(string*){
+    //        lcd_escreve(string[i]);
+    //        string++;
+    //    }
 
 
 }
