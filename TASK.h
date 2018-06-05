@@ -38,7 +38,6 @@ unsigned char taskNumber = 0;
 unsigned char taskStack[NUMBER_OF_TASKS][3][MAX_SIZE_STACK];
 unsigned int taskCountTime[NUMBER_OF_TASKS];
 unsigned int taskTime[NUMBER_OF_TASKS];
-int taskDelay[NUMBER_OF_TASKS];
 unsigned char taskBlocked[NUMBER_OF_TASKS];
 unsigned char size_stack[NUMBER_OF_TASKS];
 unsigned char taskWREG, taskSTATUS, taskBSR;

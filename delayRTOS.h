@@ -5,24 +5,16 @@
 
 #include <xc.h> // include processor files - each processor file is guarded. 
 #define _XTAL_FREQ 48000000
-#define delay_FreqPIC 48
-#define delay_Prescale 1
+#define DELAY_FREQ_PIC 48
+#define DELAY_PRESCALE 1
 
-#define delay_TasksTime 1//us
-#define delay_Timer (65535 - (delay_TasksTime*delay_FreqPIC/(unsigned short)(4*delay_Prescale)))
+#define DELAY_TIME 1000 //us
+#define DELAY_TIMER (65535 - (DELAY_TIME*DELAY_FREQ_PIC/(unsigned short)(4*DELAY_PRESCALE)))
+const unsigned short Timer1 = DELAY_TIMER+1;
 
-#define delay_TasksTime_ms 1//ms
-#define delay_Timer_ms (65535 - (1000*delay_TasksTime_ms*delay_FreqPIC/(unsigned short)(4*delay_Prescale)))
-
-const unsigned short Timer1_us = delay_Timer+1;
-const unsigned short Timer1_ms = delay_Timer_ms+1;
-
-void Timer1_delay_us();
 void Timer1_delay_ms();
 
 void delay_ms(int time);
-void delay_us(int time);
-
 
 #ifdef	__cplusplus
 extern "C" {

@@ -18,6 +18,8 @@ void TASK3();
 void main(void) {
 
     TRISBbits.RB0 = 0;
+    TRISBbits.RB1 = 0;
+    
     PORTB = 0;
 
     //inicializacao do LCD
@@ -37,7 +39,7 @@ void TASK1() {
     int test = 100;
     while (1) {
         test++;
-        Pulse1 = (unsigned) ~Pulse1;
+        //Pulse1 = (unsigned) ~Pulse1;
     }
 }
 

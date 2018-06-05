@@ -39,7 +39,6 @@ void writeCharSerial(char c) {
 
 void writeStringSerial(const char *str) {
 
-    static char i = 0;
     static const char *string;
     string = str;
 
