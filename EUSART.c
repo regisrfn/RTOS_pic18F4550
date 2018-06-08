@@ -33,7 +33,7 @@ void writeCharSerial(char c) {
     x = c;
 
     while (!TRMT);
-    TXREG = x;
+    TXREG = (unsigned) x;
 
 }
 

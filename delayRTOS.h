@@ -9,11 +9,11 @@
 #define DELAY_PRESCALE 1
 
 #define DELAY_TIME 1000 //us
-#define DELAY_TIMER (65535 - (DELAY_TIME*DELAY_FREQ_PIC/(unsigned short)(4*DELAY_PRESCALE)))
-const unsigned short Timer1 = DELAY_TIMER+1;
+#define DELAY_TIMER  (long int)DELAY_TIME*(long int)DELAY_FREQ_PIC/(4*DELAY_PRESCALE)
+#define COUNTER_TIMER(x) 65535 - x*DELAY_TIMER + 1
+unsigned short Timer1;
 
 void Timer1_delay_ms();
-
 void delay_ms(int time);
 
 #ifdef	__cplusplus

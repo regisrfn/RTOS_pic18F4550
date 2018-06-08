@@ -26,7 +26,7 @@ void main(void) {
     ADCON1 = 0x0F; //Desabilita todos os canais A/D
     lcd_ini(); //Inicializa LCD 
     UART_Init(9000);
-
+    
     TASK1();
     TASK2();
     TASK3();
@@ -47,10 +47,10 @@ void TASK2() {
     initTask(2, 1);
     int test = 7;
     while (1) {
-        delay_ms(200);
+        delay_ms(5);
         putsLCD("\fPIC18F4550.\r\n");
         putsLCD("TASK 2.\r\n");
-        delay_ms(200);
+        delay_ms(5);
         putsLCD("\fTASK 2.\r\n");
         putsLCD("PIC18F4550\r\n");
         Pulse2 = (unsigned) ~Pulse2;
