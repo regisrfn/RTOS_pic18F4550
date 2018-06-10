@@ -5,13 +5,13 @@
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 #define MAX_TASKS 3
-#define MINIMUM_TASK_TIME 100 //us
+#define MINIMUM_TASK_TIME 100UL //us
 #define NUMBER_OF_TASKS (MAX_TASKS+1)
 
-#define FREQ_PIC 48 // (MHz)
+#define FREQ_PIC 48UL // (MHz)
 #define _XTAL_FREQ 48000000
-#define PRESCALE 2
-#define TIMER (65535 - (MINIMUM_TASK_TIME*FREQ_PIC/(unsigned short)(4*PRESCALE)))
+#define PRESCALE 1UL
+#define TIMER (65535UL - (MINIMUM_TASK_TIME*FREQ_PIC/(4*PRESCALE)))
 
 #define MAX_SIZE_STACK 10 // maximum size of stack functions --> max functions for task
 
@@ -32,7 +32,7 @@ taskBSR = BSR;\
     WREG = taskWREG;\
     STATUS = taskSTATUS;\
 }
-unsigned short Timer0 = TIMER + 1;
+unsigned short Timer1 = TIMER;
 unsigned char taskStack     [NUMBER_OF_TASKS][3][MAX_SIZE_STACK];
 unsigned char savedContext  [NUMBER_OF_TASKS][3];
 unsigned char taskBlocked   [NUMBER_OF_TASKS];

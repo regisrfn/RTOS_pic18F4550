@@ -5,16 +5,16 @@
 
 #include <xc.h> // include processor files - each processor file is guarded. 
 #define _XTAL_FREQ 48000000
-#define DELAY_FREQ_PIC 48
-#define DELAY_PRESCALE 1
+#define DELAY_FREQ_PIC 48UL
+#define DELAY_PRESCALE 256UL
+#define DELAY_PRESCALE_MICROSECONDS 2UL
+#define DELAY_TIME 1000UL //us
 
-#define DELAY_TIME 1000 //us
-#define DELAY_TIMER  (long int)DELAY_TIME*(long int)DELAY_FREQ_PIC/(4*DELAY_PRESCALE)
-#define COUNTER_TIMER(x) 65535 - x*DELAY_TIMER + 1
-unsigned short Timer1;
+const unsigned short timer_ms = DELAY_TIME * DELAY_FREQ_PIC / (4UL * DELAY_PRESCALE);
+const unsigned short timer_us = DELAY_FREQ_PIC / (4UL * DELAY_PRESCALE_MICROSECONDS);
 
-void Timer1_delay_ms();
-void delay_ms(int time);
+void delay_us(unsigned int time);
+void delay_ms(unsigned int time);
 
 #ifdef	__cplusplus
 extern "C" {

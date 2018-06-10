@@ -19,14 +19,14 @@ void main(void) {
 
     TRISBbits.RB0 = 0;
     TRISBbits.RB1 = 0;
-    
+
     PORTB = 0;
 
     //inicializacao do LCD
     ADCON1 = 0x0F; //Desabilita todos os canais A/D
     lcd_ini(); //Inicializa LCD 
     UART_Init(9000);
-    
+
     TASK1();
     TASK2();
     TASK3();
@@ -47,10 +47,10 @@ void TASK2() {
     initTask(2, 1);
     int test = 7;
     while (1) {
-        delay_ms(5);
+        delay_ms(200);
         putsLCD("\fPIC18F4550.\r\n");
         putsLCD("TASK 2.\r\n");
-        delay_ms(5);
+        delay_ms(200);
         putsLCD("\fTASK 2.\r\n");
         putsLCD("PIC18F4550\r\n");
         Pulse2 = (unsigned) ~Pulse2;

@@ -11,7 +11,7 @@
 
 void interrupt highPriority() {
     SAVE_REGISTERS;
-    if (TMR0IF == 1) {
+    if (TMR1IF == 1) {
         SAVE_CONTEXT;
 
         size_stack[taskNumber] = 0;
@@ -41,8 +41,8 @@ void interrupt highPriority() {
         taskSTATUS = savedContext[taskNumber][1];
         taskBSR = savedContext[taskNumber][2];
                 
-        TMR0IF = 0;
-        TMR0 = Timer0;
+        TMR1IF = 0;
+        TMR1 = Timer1;
         RESTORE_CONTEXT;
         asm("retfie");
     }
@@ -50,12 +50,12 @@ void interrupt highPriority() {
 }
 
 void setTimerTasks() {
-    TMR0IF = 0;
+    TMR1IF = 0;
     /* Enable 16-bit TMR1 register,no pre-scale,internal clock, timer OFF */
-    T0CON = 0x00;
-    TMR0 = Timer0; /* Load Count for generating delay of 1ms */
-    TMR0ON = 1; /* Turn ON Timer1 */
-    TMR0IE = 1; /* Enable Timer1 Overflow Interrupt */
+    T1CON = 0x80;
+    TMR1 = Timer1; /* Load Count for generating delay of 1ms */
+    TMR1ON = 1; /* Turn ON Timer1 */
+    TMR1IE = 1; /* Enable Timer1 Overflow Interrupt */
 }
 
 void startRTOS(void) {
@@ -63,7 +63,7 @@ void startRTOS(void) {
     IPEN = 1;
     GIEH = 1;
     GIEL = 1;
-    TMR0IF = 1;
+    TMR1IF = 1;
 }
 
 void initTask(unsigned char TaskNo, unsigned int t) {
