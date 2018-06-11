@@ -4,9 +4,11 @@
 #ifndef LCD_H
 #define	LCD_H
 
-#include <xc.h> // include processor files - each processor file is guarded.  
-
+#include <xc.h> // include processor files - each processor file is guarded. 
 #include<p18cxxx.h>
+#include <string.h>
+
+unsigned char text_LCD[17];
 
 //Protótipos das funções para o LCD
 void lcd_ini();
@@ -15,6 +17,7 @@ void lcd_envia_byte(char nivel, char dado);
 void lcd_pos_xy(char x, char y);
 void lcd_escreve(char c);
 void putsLCD(const char *str);
+void copy_string_to_buffer(char *to_string, const char *from_string);
 #ifdef	__cplusplus
 extern "C" {
 #endif /* __cplusplus */

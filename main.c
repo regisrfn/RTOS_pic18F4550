@@ -48,11 +48,11 @@ void TASK2() {
     int test = 7;
     while (1) {
         delay_ms(200);
-        putsLCD("\fPIC18F4550.\r\n");
-        putsLCD("TASK 2.\r\n");
+        putsLCD("\fPIC18F4550\r");
+        putsLCD("TASK 2\r");
         delay_ms(200);
-        putsLCD("\fTASK 2.\r\n");
-        putsLCD("PIC18F4550\r\n");
+        putsLCD("\fTASK 2\r");
+        putsLCD("PIC18F4550\r");
         Pulse2 = (unsigned) ~Pulse2;
         test++;
     }
@@ -63,6 +63,6 @@ void TASK3() {
     int test = 255;
     while (1) {
         test++;
-        writeStringSerial("TASK 3 IS RUNNNING\r\n");
+        writeStringSerial("TASK 3 IS RUNNNING\r");
     }
 }

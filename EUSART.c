@@ -46,5 +46,7 @@ void writeStringSerial(const char *str) {
         writeCharSerial(*string);
         string++;
     }
+    
+    string = NULL;
 
 }

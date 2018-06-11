@@ -1,3 +1,4 @@
+#include <string.h>
 #include "LCD.h"
 #include "delayRTOS.h"
 
@@ -53,6 +54,7 @@ void lcd_pos_xy(char x, char y) //Função de posicionamento do cursor
     static char endereco, line; //Variável de informação para o endereço do cursor
 
     line = y;
+    
 
     if (line != 1) //Se o valor de y for 2
         endereco = 0xC0; //então endereco vai ser igual a 0xC0 (endereço da segunda linha)
@@ -88,16 +90,29 @@ void lcd_escreve(char charLCD) //Função para envio dos caracteres e/ou dados par
 }
 
 void putsLCD(const char *str) {
-
-
-    static const char *string;
-
+    
+    static unsigned int i =0;
+    static const char *string; 
+    
     string = str;
+    
+    copy_string_to_buffer(text_LCD, string);
+    
+    for(i=0;text_LCD[i];i++){
+        lcd_escreve(text_LCD[i]);
+    }   
 
-    while (*string) {
-        lcd_escreve(*string);
-        string++;
-    }
+}
 
-
+void copy_string_to_buffer(char *to_string, const char *from_string){
+    static  char *cp;
+    static const char *from;
+    
+    from = from_string;    
+    cp = to_string;
+    
+	while (*cp = *from) {
+		cp++;
+		from++;
+	}
 }
