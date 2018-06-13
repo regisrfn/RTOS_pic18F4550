@@ -5,7 +5,7 @@
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 #define MAX_TASKS 3
-#define MINIMUM_TASK_TIME 100UL //us
+#define MINIMUM_TASK_TIME 50UL //us
 #define NUMBER_OF_TASKS (MAX_TASKS+1)
 
 #define FREQ_PIC 48UL // (MHz)

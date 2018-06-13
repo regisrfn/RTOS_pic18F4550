@@ -1,118 +1,113 @@
-#include <string.h>
+//LCD Functions Developed by electroSome
 #include "LCD.h"
 #include "delayRTOS.h"
+#define _XTAL_FREQ 48000000
 
-void lcd_ini() {
-    //Incício da função lcd_ini()
-    static char i; //Variável de controle para envio dos comandos
-    TRISD = 0b00000000; //Todos os pinos da porta D configurados como saída
-    TRISEbits.TRISE1 = 0; //Pino 1 da porta E configurado como saída
-    TRISEbits.TRISE0 = 0; //Pino 0 da porta E configurado como saída
-    PORTD = 0b00000000; //Toda porta D em nível lógico 0
-    PORTEbits.RE0 = 0; //Pino 0 da porta E em nível 0
-    PORTEbits.RE1 = 0; //Pino 1 da porta E em nível 0
-    __delay_ms(15); //Atraso de 15ms
-    //Envia o comando 0x30 ao LCD por 3 vezes, em intervalos de 5ms
-    for (i = 0; i <= 2; i++) {
-        lcd_cmd(0x30);
-        __delay_ms(5);
-    }
-    lcd_cmd(0x38); //Comunicação em 8 bits, display de 2 linhas e matriz 7X5
-    __delay_us(40); //Atraso de 40us
-    lcd_cmd(0x01); //Limpa a memória do LCD
-    __delay_ms(2); //Atraso de 2ms
-    lcd_cmd(0x0C); //Liga o display sem cursor
-    __delay_us(40); //Atraso de 40us
-    lcd_cmd(0x06); //Deslocamento do cursor à direita após um novo caractere
-    __delay_us(40); //Atraso de 40us
-} //Final da função lcd_ini()
+void Lcd_Port(char c) {
+    static char a;
+    a = c;
+    if (a & 1)
+        D4 = 1;
+    else
+        D4 = 0;
 
-void lcd_cmd(char c) { //Início da função lcd_cmd
+    if (a & 2)
+        D5 = 1;
+    else
+        D5 = 0;
 
-    static char cmd;
-    cmd = c;
-    PORTD = cmd; //Coloca na porta D o valor correspondente à variável cmd
-    PORTEbits.RE1 = 1; //Coloca o pino 1 da porta E (EN) em 1
-    PORTEbits.RE1 = 0; //Coloca o pino 1 da porta E (EN) em 0
-} //Final da função lcd_cmd
+    if (a & 4)
+        D6 = 1;
+    else
+        D6 = 0;
 
-void lcd_envia_byte(char nivel, char dado) { //Início da função lcd_envia_byte()
-
-    static char data, level;
-
-    data = dado;
-    level = nivel;
-
-    PORTEbits.RE0 = level; //Habilita comando ou escrita para o LCD
-    __delay_us(100); //Atraso de 100us
-    PORTEbits.RE1 = 0; //Coloca o pino 1 da porta E (EN) em 0
-    lcd_cmd(data); //chama a função lcd_cmd com o parâmetro 'dado'
+    if (a & 8)
+        D7 = 1;
+    else
+        D7 = 0;
 }
 
-void lcd_pos_xy(char x, char y) //Função de posicionamento do cursor			
-{
-    static char endereco, line; //Variável de informação para o endereço do cursor
-
-    line = y;
-    
-
-    if (line != 1) //Se o valor de y for 2
-        endereco = 0xC0; //então endereco vai ser igual a 0xC0 (endereço da segunda linha)
-    else //Senão
-        endereco = 0x80; //endereço vai ser igual a 0x80 (endereço da primeira linha) 
-    endereco += (char) (x - 1); //Aqui decrementa o valor da variável x e o resultado é somado com
-    //a variável endereço...
-    lcd_envia_byte(0, endereco); //Chama a função lcd_envia_byte, com o valor 0, informando para
-    //o LCD que será enviado um dado e o dado está contido na
-    //variável endereço...		
+void Lcd_Cmd(char c) {
+    static char a;
+    a = c;
+    RS = 0; // => RS = 0
+    Lcd_Port(a);
+    EN = 1; // => E = 1
+    delay_ms(4);
+    EN = 0; // => E = 0
 }
 
-void lcd_escreve(char charLCD) //Função para envio dos caracteres e/ou dados para o LCD
-{
-    static char c;
-    c = charLCD;
-    switch (c) //comando switch com a variável c
-    {
-        case '\f': lcd_envia_byte(0, 1); //Caso c seja ?\f?, o dado 1 será enviado ao LCD para 
-            //limpar todo o seu conteúdo.
-            __delay_ms(2); //Atraso de 2 ms
-            break; //Comando break, terminou o processo acima, já não testa 
-            //nenhum outro caso... 
-        case '\n': //Caso c seja ?\n?
-        case '\r': lcd_pos_xy(1, 2); //ou ?\r?, muda o cursor para a segunda linha do LCD
-            break; //Comando break
-        case '\b': lcd_envia_byte(0, 0x10); //Caso c seja ?\b? então desloca o cursor para a esquerda
-            break; //Comando break
-        default: lcd_envia_byte(1, c); //caso seja um caractere qualquer, então este será escrito no 
-            //LCD pela função lcd_envia_byte?
-            break; //Comando break
+void Lcd_Clear() {
+    Lcd_Cmd(0);
+    Lcd_Cmd(1);
+}
+
+void Lcd_Set_Cursor(char row, char column) {
+    static char temp, z, y,a,b;
+    a = row;
+    b = column;
+    if (a == 1) {
+        temp = 0x80 + b - 1;
+        z = temp >> 4;
+        y = temp & 0x0F;
+        Lcd_Cmd(z);
+        Lcd_Cmd(y);
+    } else if (a == 2) {
+        temp = 0xC0 + b - 1;
+        z = temp >> 4;
+        y = temp & 0x0F;
+        Lcd_Cmd(z);
+        Lcd_Cmd(y);
     }
 }
 
-void putsLCD(const char *str) {
-    
-    static unsigned int i =0;
-    static const char *string; 
-    
-    string = str;
-    
-    copy_string_to_buffer(text_LCD, string);
-    
-    for(i=0;text_LCD[i];i++){
-        lcd_escreve(text_LCD[i]);
-    }   
-
+void Lcd_Init() {
+    Lcd_Port(0x00);
+    delay_ms(20);
+    Lcd_Cmd(0x03);
+    delay_ms(5);
+    Lcd_Cmd(0x03);
+    delay_ms(11);
+    Lcd_Cmd(0x03);
+    /////////////////////////////////////////////////////
+    Lcd_Cmd(0x02);
+    Lcd_Cmd(0x02);
+    Lcd_Cmd(0x08);
+    Lcd_Cmd(0x00);
+    Lcd_Cmd(0x0C);
+    Lcd_Cmd(0x00);
+    Lcd_Cmd(0x06);
 }
 
-void copy_string_to_buffer(char *to_string, const char *from_string){
-    static  char *cp;
-    static const char *from;
-    
-    from = from_string;    
-    cp = to_string;
-    
-	while (*cp = *from) {
-		cp++;
-		from++;
-	}
+void Lcd_Write_Char(char a) {
+    static char temp, y;
+    temp = a & 0x0F;
+    y = a & 0xF0;
+    RS = 1; // => RS = 1
+    Lcd_Port(y >> 4); //Data transfer
+    EN = 1;
+    delay_us(40);
+    EN = 0;
+    Lcd_Port(temp);
+    EN = 1;
+    delay_us(40);
+    EN = 0;
 }
+
+void Lcd_Write_String(const char *a) {
+    static int i;
+    for (i = 0; a[i] != '\0'; i++)
+        Lcd_Write_Char(a[i]);
+}
+
+void Lcd_Shift_Right() {
+    Lcd_Cmd(0x01);
+    Lcd_Cmd(0x0C);
+}
+
+void Lcd_Shift_Left() {
+    Lcd_Cmd(0x01);
+    Lcd_Cmd(0x08);
+}
+
+

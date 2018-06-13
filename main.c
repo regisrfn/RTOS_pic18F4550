@@ -16,15 +16,15 @@ void TASK2();
 void TASK3();
 
 void main(void) {
-
+    unsigned int a;
+    TRISD = 0x00;
+    TRISE = 0x00;
     TRISBbits.RB0 = 0;
     TRISBbits.RB1 = 0;
-
     PORTB = 0;
-
-    //inicializacao do LCD
+    // inicializacao do LCD
     ADCON1 = 0x0F; //Desabilita todos os canais A/D
-    lcd_ini(); //Inicializa LCD 
+    Lcd_Init();
     UART_Init(9000);
 
     TASK1();
@@ -47,13 +47,13 @@ void TASK2() {
     initTask(2, 1);
     int test = 7;
     while (1) {
-        delay_ms(200);
-        putsLCD("\fPIC18F4550\r");
-        putsLCD("TASK 2\r");
-        delay_ms(200);
-        putsLCD("\fTASK 2\r");
-        putsLCD("PIC18F4550\r");
-        Pulse2 = (unsigned) ~Pulse2;
+        Lcd_Clear();
+        Lcd_Set_Cursor(1, 1);
+        Lcd_Write_String("LCD Library for");
+        Lcd_Set_Cursor(2, 1);
+        Lcd_Write_String("MPLAB XC8");
+        delay_ms(400);
+        Pulse1 = (unsigned) ~Pulse1;
         test++;
     }
 }
@@ -63,6 +63,6 @@ void TASK3() {
     int test = 255;
     while (1) {
         test++;
-        writeStringSerial("TASK 3 IS RUNNNING\r");
+        // writeStringSerial("TASK 3 IS RUNNNING\r");
     }
 }

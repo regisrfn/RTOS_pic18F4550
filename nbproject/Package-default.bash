@@ -10,9 +10,9 @@ CND_CONF=default
 CND_DISTDIR=dist
 TMPDIR=build/${CND_CONF}/${IMAGE_TYPE}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/RTOS.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-OUTPUT_BASENAME=RTOS.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-PACKAGE_TOP_DIR=rtos.x/
+OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/RTOS_pic18F4550.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+OUTPUT_BASENAME=RTOS_pic18F4550.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+PACKAGE_TOP_DIR=rtospic18f4550/
 
 # Functions
 function checkReturnCode
@@ -57,15 +57,15 @@ mkdir -p ${TMPDIR}
 
 # Copy files and create directories and links
 cd "${TOP}"
-makeDirectory ${TMPDIR}/rtos.x/bin
+makeDirectory ${TMPDIR}/rtospic18f4550/bin
 copyFileToTmpDir "${OUTPUT_PATH}" "${TMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
 
 
 # Generate tar file
 cd "${TOP}"
-rm -f ${CND_DISTDIR}/${CND_CONF}/package/rtos.x.tar
+rm -f ${CND_DISTDIR}/${CND_CONF}/package/rtospic18f4550.tar
 cd ${TMPDIR}
-tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/rtos.x.tar *
+tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/rtospic18f4550.tar *
 checkReturnCode
 
 # Cleanup
