@@ -3,8 +3,10 @@
 #include "CONFIG.h" // Configuration Bit Settings
 #include "TASK.h"   // Configuration of RTOS variables
 #include "delayRTOS.h"
+#include "memoryRTOS.h"
 #include "LCD.h"
 #include "EUSART.h"
+
 #define Pulse1 PORTBbits.RB0
 #define Pulse2 PORTBbits.RB1
 #define Pulse3 PORTBbits.RB2
@@ -36,10 +38,12 @@ void main(void) {
 
 void TASK1() {
     initTask(1, 1);
-    int test = 100;
+    static char *semaphore;
+    semaphore = malloc(2);
+    semaphore[0] = 1;
+    semaphore[1] = 2;
     while (1) {
-        test++;
-        //Pulse1 = (unsigned) ~Pulse1;
+        //Pulse1 = (unsignd) ~Pulse1;
     }
 }
 
@@ -50,26 +54,26 @@ void TASK2() {
         while (1) {
             Lcd_Clear();
             Lcd_Set_Cursor(1, 1);
-            Lcd_Write_String("LCD Library for");
+            Lcd_Write_String("LCD LIBRARY FOR");
             Lcd_Set_Cursor(2, 1);
             Lcd_Write_String("MPLAB XC8");
             delay_ms(1000);
             Lcd_Clear();
             Lcd_Set_Cursor(1, 1);
-            Lcd_Write_String("Developed By");
+            Lcd_Write_String("TESTING");
             Lcd_Set_Cursor(2, 1);
-            Lcd_Write_String("electroSome");
+            Lcd_Write_String("RTOS");
             delay_ms(1000);
             Lcd_Clear();
             Lcd_Set_Cursor(1, 1);
-            Lcd_Write_String("www.electroSome.com");
+            Lcd_Write_String("TASK 2 IS RUNNING");
 
-            for (a = 0; a < 15; a++) {
+            for (a = 0; a < 17; a++) {
                 delay_ms(300);
                 Lcd_Shift_Left();
             }
 
-            for (a = 0; a < 15; a++) {
+            for (a = 0; a < 17; a++) {
                 delay_ms(300);
                 Lcd_Shift_Right();
             }
@@ -85,9 +89,7 @@ void TASK2() {
 
 void TASK3() {
     initTask(3, 1);
-    int test = 255;
     while (1) {
-        test++;
         writeStringSerial("TASK 3 IS RUNNNING\r");
     }
 }

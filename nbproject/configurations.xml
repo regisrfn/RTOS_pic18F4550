@@ -9,6 +9,7 @@
         <itemPath>delayRTOS.h</itemPath>
         <itemPath>types.h</itemPath>
         <itemPath>EUSART.h</itemPath>
+        <itemPath>memoryRTOS.h</itemPath>
       </logicalFolder>
       <itemPath>CONFIG.h</itemPath>
     </logicalFolder>
@@ -24,6 +25,7 @@
         <itemPath>delay.c</itemPath>
         <itemPath>LCD.c</itemPath>
         <itemPath>EUSART.c</itemPath>
+        <itemPath>memoryRTOS.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
       <itemPath>LCD.h</itemPath>

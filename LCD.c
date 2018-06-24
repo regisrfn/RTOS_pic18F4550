@@ -1,6 +1,7 @@
 //LCD Functions Developed by electroSome
 #include "LCD.h"
 #include "delayRTOS.h"
+#include <stdbool.h>
 #define _XTAL_FREQ 48000000
 
 void Lcd_Port(char c) {
@@ -47,15 +48,15 @@ void Lcd_Set_Cursor(char row, char column) {
     a = row;
     b = column;
     if (a == 1) {
-        temp = 0x80 + b - 1;
+        temp = 0x80U + b - 1U;
         z = temp >> 4;
-        y = temp & 0x0F;
+        y = temp & 0x0FU;
         Lcd_Cmd(z);
         Lcd_Cmd(y);
     } else if (a == 2) {
-        temp = 0xC0 + b - 1;
-        z = temp >> 4;
-        y = temp & 0x0F;
+        temp = 0xC0U + b - 1U;
+        z = temp >> 4U;
+        y = temp & 0x0FU;
         Lcd_Cmd(z);
         Lcd_Cmd(y);
     }
@@ -81,8 +82,8 @@ void Lcd_Init() {
 
 void Lcd_Write_Char(char a) {
     static char temp, y;
-    temp = a & 0x0F;
-    y = a & 0xF0;
+    temp = a & 0x0FU;
+    y = a & 0xF0U;
     RS = 1; // => RS = 1
     Lcd_Port(y >> 4); //Data transfer
     EN = 1;
