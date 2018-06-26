@@ -38,10 +38,25 @@ void main(void) {
 
 void TASK1() {
     initTask(1, 1);
-    static char *semaphore;
-    semaphore = malloc(2);
-    semaphore[0] = 1;
-    semaphore[1] = 2;
+    static char *dynamic_allocated;
+    static char *dynamic_allocated2;
+    static char *dynamic_allocated3;
+
+    dynamic_allocated = (char *) malloc(2 * sizeof (char));
+    dynamic_allocated[0] = 1;
+    dynamic_allocated[1] = 2;
+
+    dynamic_allocated2 = (char *) malloc(2 * sizeof (char));
+    dynamic_allocated2[0] = 1;
+    dynamic_allocated2[1] = 2;
+        
+    dynamic_allocated3 = (char *) malloc(4 * sizeof (char));
+    dynamic_allocated3[0] = 1;
+    dynamic_allocated3[1] = 2;
+    dynamic_allocated3[2] = 3;
+    dynamic_allocated3[3] = 4;
+    
+
     while (1) {
         //Pulse1 = (unsignd) ~Pulse1;
     }
@@ -80,7 +95,7 @@ void TASK2() {
 
             Lcd_Clear();
             Lcd_Set_Cursor(2, 1);
-            Lcd_Write_Char('e');
+            Lcd_Write_Char('O');
             Lcd_Write_Char('S');
             delay_ms(1000);
         }

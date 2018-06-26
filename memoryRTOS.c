@@ -17,38 +17,40 @@ void *get_memory_from_heap(size_t len)
 }
 
 struct block_meta *find_free_block(struct block_meta **last, size_t size) {
-  static struct block_meta *current; 
+  static struct block_meta *current;
+  static struct block_meta **last_block;
+  
   current = global_base;
+  last_block = last;
+  
   while (current && !(current->free && current->size >= size)) {
-    *last = current;
+    *last_block = current;
     current = current->next;
   }
   return current;
 }
 
+
 struct block_meta *request_space(struct block_meta* last, size_t size) {
-  static struct block_meta *block;
-  static struct block_meta *last_block;
-  static size_t size_of_block;
+  static struct block_meta *block, *last_block;
+  static size_t block_size;
   
-  size_of_block = size;
+  block_size = size;  
   last_block = last;
-  block =  get_memory_from_heap(0);
+  block = get_memory_from_heap(0);
+  void *request = get_memory_from_heap(size + META_SIZE);
   
-  static void *request; 
-  request = get_memory_from_heap(size + META_SIZE);
-  //assert((void*)block == request); // Not thread safe.
   if (request == NULL) {
     return NULL; // sbrk failed.
   }
 
-  if (last_block) {
+  if (last_block) { // NULL on first request.
     last_block->next = block;
   }
-  block->size = size_of_block;
+  block->size = block_size;
   block->next = NULL;
   block->free = 0;
-  //block->magic = 0x12345678;
+
   return block;
 }
 
@@ -86,3 +88,18 @@ void *malloc(size_t size) {
   //the space after the metadeta
   return(block+1); 
 }
+
+struct block_meta *get_block_ptr(void *ptr) {
+  return (struct block_meta*)ptr - 1;
+}
+
+void free(void *ptr) {
+  if (!ptr) {
+    return;
+  }
+
+  // TODO: consider merging blocks once splitting blocks is implemented.
+  struct block_meta* block_ptr = get_block_ptr(ptr);
+  block_ptr->free = 1;
+}
+

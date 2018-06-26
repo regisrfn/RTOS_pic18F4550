@@ -44,7 +44,7 @@ void interrupt highPriority() {
         TMR1IF = 0;
         TMR1 = Timer1;
         RESTORE_CONTEXT;
-        asm("retfie");
+        asm("retfie f");
     }
 
 }
