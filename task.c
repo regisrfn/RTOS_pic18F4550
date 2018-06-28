@@ -1,62 +1,74 @@
-// This is a guard condition so that contents of this file are not included
-// more than once.  
-#ifndef TASK_H
-#define	TASK_H
+/*
+ * File:   task.c
+ * Author: regis
+ *
+ * Created on 3 de Junho de 2017, 11:57
+ */
 
-#include <xc.h> // include processor files - each processor file is guarded.  
-#define MAX_TASKS 3
-#define MINIMUM_TASK_TIME 10UL //us
-#define NUMBER_OF_TASKS (MAX_TASKS+1)
 
-#define FREQ_PIC 48UL // (MHz)
-#define _XTAL_FREQ 48000000
-#define PRESCALE 1UL
-#define TIMER (65535UL - (MINIMUM_TASK_TIME*FREQ_PIC/(4*PRESCALE)))
+#include <xc.h>
+#include "TASK.h"
 
-#define MAX_SIZE_STACK 10 // maximum size of stack functions --> max functions for task
+void interrupt highPriority() {
+    SAVE_CONTEXT;
+    if (TMR1IF == 1) {
+        SAVE_INTO_STACK;
 
-#define SAVE_REGISTERS {\
-taskWREG = WREG;\
-taskSTATUS = STATUS;\
-taskBSR = BSR;\
+        size_stack[taskNumber] = 0;
+        while (STKPTR > 1) {
+            taskStack[taskNumber][0][size_stack[taskNumber]] = TOSL;
+            taskStack[taskNumber][1][size_stack[taskNumber]] = TOSH;
+            taskStack[taskNumber][2][size_stack[taskNumber]] = TOSU;
+            asm("POP");
+            size_stack[taskNumber]++;
+        }
+        size_stack[taskNumber]--;
+
+        taskNumber++;
+        if (taskNumber > NUMBER_OF_TASKS - 1)
+            taskNumber = 1;
+
+
+        while ((signed char) size_stack[taskNumber] > -1) {
+            asm("PUSH");
+            TOSL = taskStack[taskNumber][0][size_stack[taskNumber]];
+            TOSH = taskStack[taskNumber][1][size_stack[taskNumber]];
+            TOSU = taskStack[taskNumber][2][size_stack[taskNumber]];
+            size_stack[taskNumber]--;
+        }
+
+        RESTORE_FROM_STACK;
+                
+        TMR1IF = 0;
+        TMR1 = Timer1;
+        RESTORE_CONTEXT;
+        asm("retfie");
+    }
+
 }
 
-#define SAVE_CONTEXT {\
-    savedContext[taskNumber][0] = taskWREG;\
-    savedContext[taskNumber][1] = taskSTATUS;\
-    savedContext[taskNumber][2] = taskBSR;\
+void setTimerTasks() {
+    TMR1IF = 0;
+    /* Enable 16-bit TMR1 register,no pre-scale,internal clock, timer OFF */
+    T1CON = 0x80;
+    TMR1 = Timer1; /* Load Count for generating delay of 1ms */
+    TMR1ON = 1; /* Turn ON Timer1 */
+    TMR1IE = 1; /* Enable Timer1 Overflow Interrupt */
 }
 
-#define RESTORE_CONTEXT {\
-    BSR = taskBSR;\
-    WREG = taskWREG;\
-    STATUS = taskSTATUS;\
+void startRTOS(void) {
+    setTimerTasks();
+    IPEN = 1;
+    GIEH = 1;
+    GIEL = 1;
+    TMR1IF = 1;
 }
-unsigned short Timer1 = TIMER;
-unsigned char taskStack     [NUMBER_OF_TASKS][3][MAX_SIZE_STACK];
-unsigned char savedContext  [NUMBER_OF_TASKS][3];
-unsigned char taskBlocked   [NUMBER_OF_TASKS];
-unsigned int  taskTime      [NUMBER_OF_TASKS];
-unsigned int  taskCountTime [NUMBER_OF_TASKS];
-unsigned char size_stack    [NUMBER_OF_TASKS];
-unsigned char taskNumber = 0;
-unsigned char taskWREG, taskSTATUS, taskBSR;
 
-void interrupt highPriority();
-void setTimerTasks();
-void initBlocked();
-void initTask(unsigned char TaskNo, unsigned int t);
-void startRTOS();
+void initTask(unsigned char TaskNo, unsigned int t) {
 
-#ifdef	__cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
-    // TODO If C++ is being used, regular C code needs function names to have C 
-    // linkage so the functions can be used by the c code. 
-
-#ifdef	__cplusplus
+    taskStack[TaskNo][0][0] = TOSL;
+    taskStack[TaskNo][1][0] = TOSH;
+    taskStack[TaskNo][2][0] = TOSU;
+    taskTime[TaskNo] = t;
+    asm("POP");
 }
-#endif /* __cplusplus */
-
-#endif /* TASK_H */
