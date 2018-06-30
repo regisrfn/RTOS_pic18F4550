@@ -23,14 +23,14 @@ asm("MOVFF	BSR, _taskBSR");											\
 }
 
 #define SAVE_INTO_STACK {\
-savedContext[taskNumber][12] = taskBSR;\
-savedContext[taskNumber][13] = taskSTATUS;\
-savedContext[taskNumber][14] = taskWREG;\
+savedContext[taskNumber][2] = taskBSR;\
+savedContext[taskNumber][1] = taskSTATUS;\
+savedContext[taskNumber][0] = taskWREG;\
 }
 #define RESTORE_FROM_STACK {\
-taskBSR = savedContext[taskNumber][12];\
-taskSTATUS = savedContext[taskNumber][13];\
-taskWREG = savedContext[taskNumber][14];\
+taskBSR = savedContext[taskNumber][2];\
+taskSTATUS = savedContext[taskNumber][1];\
+taskWREG = savedContext[taskNumber][0];\
 }
 
 #define RESTORE_CONTEXT {\
@@ -40,7 +40,7 @@ asm("MOVFF	_taskWREG, WREG");											\
 }
 unsigned short Timer1 = TIMER;
 unsigned char taskStack     [NUMBER_OF_TASKS][3][MAX_SIZE_STACK];
-unsigned char savedContext  [NUMBER_OF_TASKS][15];
+unsigned char savedContext  [NUMBER_OF_TASKS][3];
 unsigned char taskBlocked   [NUMBER_OF_TASKS];
 unsigned int  taskTime      [NUMBER_OF_TASKS];
 unsigned int  taskCountTime [NUMBER_OF_TASKS];

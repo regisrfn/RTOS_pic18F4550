@@ -26,8 +26,8 @@ void main(void) {
     PORTB = 0;
     // inicializacao do LCD
     ADCON1 = 0x0F; //Desabilita todos os canais A/D
-    Lcd_Init();
-    UART_Init(9000);
+    //Lcd_Init();
+    //UART_Init(9000);
 
     TASK1();
     TASK2();
@@ -49,14 +49,19 @@ void TASK1() {
     dynamic_allocated2 = (char *) malloc(2 * sizeof (char));
     dynamic_allocated2[0] = 1;
     dynamic_allocated2[1] = 2;
+    
+    free(dynamic_allocated2);
 
     dynamic_allocated3 = (char *) malloc(4 * sizeof (char));
     dynamic_allocated3[0] = 1;
     dynamic_allocated3[1] = 2;
     dynamic_allocated3[2] = 3;
     dynamic_allocated3[3] = 4;
-
-
+    
+    dynamic_allocated2 = (char *) malloc(2 * sizeof (char));
+    dynamic_allocated2[0] = 3;
+    dynamic_allocated2[1] = 4;
+    
     while (1) {
         //Pulse1 = (unsignd) ~Pulse1;
     }
