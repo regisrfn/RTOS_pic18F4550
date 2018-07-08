@@ -97,8 +97,11 @@ void Lcd_Write_Char(char a) {
 
 void Lcd_Write_String(const char *a) {
     static int i;
-    for (i = 0; a[i] != '\0'; i++)
-        Lcd_Write_Char(a[i]);
+    static const char *string;
+    string = a;
+    
+    for (i = 0; string[i] != '\0'; i++)
+        Lcd_Write_Char(string[i]);
 }
 
 void Lcd_Shift_Right() {

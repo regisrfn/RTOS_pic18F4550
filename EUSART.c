@@ -33,18 +33,19 @@ void writeCharSerial(char c) {
     x = c;
 
     while (!TRMT);
-    TXREG = (unsigned) x;
+    TXREG = x;
 
 }
 
 void writeStringSerial(const char *str) {
 
+    static int i;
     static const char *string;
     string = str;
-
-    while (*string) {
+    
+    while(*string){
         writeCharSerial(*string);
         string++;
     }
-
+    
 }

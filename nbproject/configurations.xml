@@ -5,6 +5,9 @@
                    displayName="Header Files"
                    projectFiles="true">
       <logicalFolder name="f1" displayName="RTOS" projectFiles="true">
+        <logicalFolder name="f1" displayName="data_structure" projectFiles="true">
+          <itemPath>stack_structure_RTOS.h</itemPath>
+        </logicalFolder>
         <itemPath>TASK.h</itemPath>
         <itemPath>delayRTOS.h</itemPath>
         <itemPath>types.h</itemPath>
@@ -21,6 +24,9 @@
                    displayName="Source Files"
                    projectFiles="true">
       <logicalFolder name="f1" displayName="RTOS" projectFiles="true">
+        <logicalFolder name="f1" displayName="data_structure" projectFiles="true">
+          <itemPath>stack_structure_RTOS.c</itemPath>
+        </logicalFolder>
         <itemPath>task.c</itemPath>
         <itemPath>delay.c</itemPath>
         <itemPath>LCD.c</itemPath>

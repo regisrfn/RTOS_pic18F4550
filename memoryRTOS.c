@@ -18,13 +18,19 @@ void *get_memory_from_heap(size_t len) {
 struct block_meta *find_free_block(struct block_meta **last, size_t size) {
     static struct block_meta *current;
     static struct block_meta **last_block;
-
+    static size_t size_of_block;
+    
+    size_of_block = size;
     current = global_base;
     last_block = last;
 
-    while (current && !(current->free && current->size >= size)) {
+    while (current && !(current->free && current->size >= size_of_block)) {
         *last_block = current;
         current = current->next;
+    }
+    
+    if(!current){
+        return NULL;
     }
     return current;
 }
@@ -36,7 +42,7 @@ struct block_meta *request_space(struct block_meta* last, size_t size) {
     block_size = size;
     last_block = last;
     block = get_memory_from_heap(0);
-    void *request = get_memory_from_heap(size + META_SIZE);
+    void *request = get_memory_from_heap(block_size + META_SIZE);
 
     if (request == NULL) {
         return NULL; // sbrk failed.
@@ -103,7 +109,7 @@ void free(void *ptr) {
 
     // TODO: consider merging blocks once splitting blocks is implemented.
     static struct block_meta* block_ptr;
-    block_ptr = ((struct block_meta*)pointer)-1;
+    block_ptr = get_block_ptr(pointer);
     block_ptr->free = 1;
 }
 

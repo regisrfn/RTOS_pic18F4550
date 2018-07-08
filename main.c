@@ -6,6 +6,7 @@
 #include "memoryRTOS.h"
 #include "LCD.h"
 #include "EUSART.h"
+#include "stack_structure_RTOS.h"
 
 #define Pulse1 PORTBbits.RB0
 #define Pulse2 PORTBbits.RB1
@@ -26,8 +27,8 @@ void main(void) {
     PORTB = 0;
     // inicializacao do LCD
     ADCON1 = 0x0F; //Desabilita todos os canais A/D
-    //Lcd_Init();
-    //UART_Init(9000);
+    Lcd_Init();
+    UART_Init(9000);
 
     TASK1();
     TASK2();
@@ -38,10 +39,17 @@ void main(void) {
 
 void TASK1() {
     initTask(1, 1);
+    static struct Stack* stack;
+    stack = createStack(10);
+
+    push(stack, 1);
+    push(stack, 2);
+    push(stack, 3);
+    
     static char *dynamic_allocated;
     static char *dynamic_allocated2;
     static char *dynamic_allocated3;
-
+    
     dynamic_allocated = (char *) malloc(2 * sizeof (char));
     dynamic_allocated[0] = 1;
     dynamic_allocated[1] = 2;
@@ -49,7 +57,7 @@ void TASK1() {
     dynamic_allocated2 = (char *) malloc(2 * sizeof (char));
     dynamic_allocated2[0] = 1;
     dynamic_allocated2[1] = 2;
-    
+
     free(dynamic_allocated2);
 
     dynamic_allocated3 = (char *) malloc(4 * sizeof (char));
@@ -57,11 +65,11 @@ void TASK1() {
     dynamic_allocated3[1] = 2;
     dynamic_allocated3[2] = 3;
     dynamic_allocated3[3] = 4;
-    
+
     dynamic_allocated2 = (char *) malloc(2 * sizeof (char));
     dynamic_allocated2[0] = 3;
     dynamic_allocated2[1] = 4;
-    
+
     while (1) {
         //Pulse1 = (unsignd) ~Pulse1;
     }
