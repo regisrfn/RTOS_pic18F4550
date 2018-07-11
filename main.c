@@ -1,5 +1,5 @@
 #include <xc.h>
-#include <p18f4550.h>
+#include <pic18f4550.h>
 #include "CONFIG.h" // Configuration Bit Settings
 #include "TASK.h"   // Configuration of RTOS variables
 #include "delayRTOS.h"
