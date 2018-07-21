@@ -13,6 +13,7 @@
         <itemPath>types.h</itemPath>
         <itemPath>EUSART.h</itemPath>
         <itemPath>memoryRTOS.h</itemPath>
+        <itemPath>semaphore.h</itemPath>
       </logicalFolder>
       <itemPath>CONFIG.h</itemPath>
     </logicalFolder>
@@ -32,6 +33,7 @@
         <itemPath>LCD.c</itemPath>
         <itemPath>EUSART.c</itemPath>
         <itemPath>memoryRTOS.c</itemPath>
+        <itemPath>semaphore.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
       <itemPath>LCD.h</itemPath>

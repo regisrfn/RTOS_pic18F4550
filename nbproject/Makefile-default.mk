@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=stack_structure_RTOS.c task.c delay.c LCD.c EUSART.c memoryRTOS.c main.c
+SOURCEFILES_QUOTED_IF_SPACED=stack_structure_RTOS.c task.c delay.c LCD.c EUSART.c memoryRTOS.c main.c semaphore.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/stack_structure_RTOS.p1 ${OBJECTDIR}/task.p1 ${OBJECTDIR}/delay.p1 ${OBJECTDIR}/LCD.p1 ${OBJECTDIR}/EUSART.p1 ${OBJECTDIR}/memoryRTOS.p1 ${OBJECTDIR}/main.p1
-POSSIBLE_DEPFILES=${OBJECTDIR}/stack_structure_RTOS.p1.d ${OBJECTDIR}/task.p1.d ${OBJECTDIR}/delay.p1.d ${OBJECTDIR}/LCD.p1.d ${OBJECTDIR}/EUSART.p1.d ${OBJECTDIR}/memoryRTOS.p1.d ${OBJECTDIR}/main.p1.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/stack_structure_RTOS.p1 ${OBJECTDIR}/task.p1 ${OBJECTDIR}/delay.p1 ${OBJECTDIR}/LCD.p1 ${OBJECTDIR}/EUSART.p1 ${OBJECTDIR}/memoryRTOS.p1 ${OBJECTDIR}/main.p1 ${OBJECTDIR}/semaphore.p1
+POSSIBLE_DEPFILES=${OBJECTDIR}/stack_structure_RTOS.p1.d ${OBJECTDIR}/task.p1.d ${OBJECTDIR}/delay.p1.d ${OBJECTDIR}/LCD.p1.d ${OBJECTDIR}/EUSART.p1.d ${OBJECTDIR}/memoryRTOS.p1.d ${OBJECTDIR}/main.p1.d ${OBJECTDIR}/semaphore.p1.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/stack_structure_RTOS.p1 ${OBJECTDIR}/task.p1 ${OBJECTDIR}/delay.p1 ${OBJECTDIR}/LCD.p1 ${OBJECTDIR}/EUSART.p1 ${OBJECTDIR}/memoryRTOS.p1 ${OBJECTDIR}/main.p1
+OBJECTFILES=${OBJECTDIR}/stack_structure_RTOS.p1 ${OBJECTDIR}/task.p1 ${OBJECTDIR}/delay.p1 ${OBJECTDIR}/LCD.p1 ${OBJECTDIR}/EUSART.p1 ${OBJECTDIR}/memoryRTOS.p1 ${OBJECTDIR}/main.p1 ${OBJECTDIR}/semaphore.p1
 
 # Source Files
-SOURCEFILES=stack_structure_RTOS.c task.c delay.c LCD.c EUSART.c memoryRTOS.c main.c
+SOURCEFILES=stack_structure_RTOS.c task.c delay.c LCD.c EUSART.c memoryRTOS.c main.c semaphore.c
 
 
 CFLAGS=
@@ -142,6 +142,13 @@ ${OBJECTDIR}/main.p1: main.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -fshort-double -fshort-float -memi=wordwrite -O0 -maddrqual=ignore -xassembler-with-cpp -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mno-keep-startup -mno-download -mdefault-config-bits $(COMPARISON_BUILD)  -std=c90 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/main.p1 main.c 
 	@${FIXDEPS} ${OBJECTDIR}/main.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
+${OBJECTDIR}/semaphore.p1: semaphore.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/semaphore.p1.d 
+	@${RM} ${OBJECTDIR}/semaphore.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -fshort-double -fshort-float -memi=wordwrite -O0 -maddrqual=ignore -xassembler-with-cpp -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mno-keep-startup -mno-download -mdefault-config-bits $(COMPARISON_BUILD)  -std=c90 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/semaphore.p1 semaphore.c 
+	@${FIXDEPS} ${OBJECTDIR}/semaphore.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
 else
 ${OBJECTDIR}/stack_structure_RTOS.p1: stack_structure_RTOS.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
@@ -191,6 +198,13 @@ ${OBJECTDIR}/main.p1: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/main.p1 
 	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -fshort-double -fshort-float -memi=wordwrite -O0 -maddrqual=ignore -xassembler-with-cpp -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mno-keep-startup -mno-download -mdefault-config-bits $(COMPARISON_BUILD)  -std=c90 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/main.p1 main.c 
 	@${FIXDEPS} ${OBJECTDIR}/main.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
+${OBJECTDIR}/semaphore.p1: semaphore.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/semaphore.p1.d 
+	@${RM} ${OBJECTDIR}/semaphore.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -fshort-double -fshort-float -memi=wordwrite -O0 -maddrqual=ignore -xassembler-with-cpp -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mno-keep-startup -mno-download -mdefault-config-bits $(COMPARISON_BUILD)  -std=c90 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/semaphore.p1 semaphore.c 
+	@${FIXDEPS} ${OBJECTDIR}/semaphore.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
 endif
 

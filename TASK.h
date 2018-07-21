@@ -15,6 +15,10 @@
 
 #define MAX_SIZE_STACK 10 // maximum size of stack functions --> max functions for task
 
+#define ENTER_CRITICAL GIE = 0;
+#define EXIT_CRITICAL  GIE = 1;
+#define SWAP_TASK {swapTask = 1;TMR1IF = 1;}
+
 
 #define SAVE_CONTEXT {\
 asm("MOVFF	WREG, _taskWREG");											\
@@ -61,6 +65,8 @@ unsigned char taskBlocked   [NUMBER_OF_TASKS];
 unsigned int  taskTime      [NUMBER_OF_TASKS];
 unsigned int  taskCountTime [NUMBER_OF_TASKS];
 unsigned char size_stack    [NUMBER_OF_TASKS];
+unsigned char taskBlocked   [NUMBER_OF_TASKS];
+unsigned char swapTask;
 unsigned char taskNumber = 0;
 unsigned char taskWREG, taskSTATUS, taskBSR;
 unsigned char taskFSR2L,taskFSR2H,taskFSR0L,taskFSR0H;

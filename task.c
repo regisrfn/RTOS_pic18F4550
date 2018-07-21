@@ -14,35 +14,44 @@ void interrupt highPriority() {
     if (TMR1IF == 1) {
         SAVE_INTO_STACK;
 
-        size_stack[taskNumber] = 0;
-        while (STKPTR > 1) {
-            taskStack[taskNumber][0][size_stack[taskNumber]] = TOSL;
-            taskStack[taskNumber][1][size_stack[taskNumber]] = TOSH;
-            taskStack[taskNumber][2][size_stack[taskNumber]] = TOSU;
-            asm("POP");
-            size_stack[taskNumber]++;
-        }
-        size_stack[taskNumber]--;
+        taskCountTime[taskNumber]++;
+        if ((swapTask) || (taskCountTime[taskNumber] >= taskTime[taskNumber])) {
 
-        taskNumber++;
-        if (taskNumber > NUMBER_OF_TASKS - 1)
-            taskNumber = 1;
+            taskCountTime[taskNumber] = 0;
+            if (swapTask)swapTask = 0;
 
-
-        while ((signed char) size_stack[taskNumber] > -1) {
-            asm("PUSH");
-            TOSL = taskStack[taskNumber][0][size_stack[taskNumber]];
-            TOSH = taskStack[taskNumber][1][size_stack[taskNumber]];
-            TOSU = taskStack[taskNumber][2][size_stack[taskNumber]];
+            size_stack[taskNumber] = 0;
+            while (STKPTR > 1) {
+                taskStack[taskNumber][0][size_stack[taskNumber]] = TOSL;
+                taskStack[taskNumber][1][size_stack[taskNumber]] = TOSH;
+                taskStack[taskNumber][2][size_stack[taskNumber]] = TOSU;
+                asm("POP");
+                size_stack[taskNumber]++;
+            }
             size_stack[taskNumber]--;
-        }
 
-        RESTORE_FROM_STACK;
-                
-        TMR1IF = 0;
-        TMR1 = Timer1;
-        RESTORE_CONTEXT;
-        asm("retfie");
+            taskNumber++;
+            if (taskNumber > NUMBER_OF_TASKS - 1)
+                taskNumber = 1;
+
+
+            while ((signed char) size_stack[taskNumber] > -1) {
+                asm("PUSH");
+                TOSL = taskStack[taskNumber][0][size_stack[taskNumber]];
+                TOSH = taskStack[taskNumber][1][size_stack[taskNumber]];
+                TOSU = taskStack[taskNumber][2][size_stack[taskNumber]];
+                size_stack[taskNumber]--;
+            }
+
+            RESTORE_FROM_STACK;
+
+            TMR1IF = 0;
+            TMR1 = Timer1;
+            RESTORE_CONTEXT;
+            asm("retfie");
+
+
+        }
     }
 
 }
